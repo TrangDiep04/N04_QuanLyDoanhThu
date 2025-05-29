@@ -81,14 +81,14 @@
 
             <!-- Tomcat deploy plugin -->
             <plugin>
-    <groupId>org.apache.tomcat.maven</groupId>
-    <artifactId>tomcat-maven-plugin</artifactId> <!-- hoặc tomcat9 -->
-    <version>2.2</version>
-    <configuration>
-        <path>/</path>
-        <port>8080</port>
-    </configuration>
-</plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <path>/</path>
+                    <port>8080</port>
+                </configuration>
+            </plugin>
 
         </plugins>
     </build>

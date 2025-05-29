@@ -37,6 +37,8 @@ public class RevenueServlet extends HttpServlet {
             return;
         }
 
+        // kiểm tra vai trò người dung
+        // .Nếu không phải "ADMIN", chuyển hướng về /revenue
         String role = (String) session.getAttribute("role");
         if (!"ADMIN".equals(role)) {
             response.sendRedirect(request.getContextPath() + "/revenue");
@@ -74,6 +76,7 @@ public class RevenueServlet extends HttpServlet {
     }
 
     @Override
+    //request.getParameter: Lấy startDate và endDate từ query string (URL) hoặc form.
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");

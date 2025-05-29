@@ -10,7 +10,7 @@ public class DatabaseConnectServiceImpl implements DatabaseConnectService {
 
     private static final String URL = "jdbc:mysql://localhost:3306/shopexpense";
     private static final String USER = "root";
-    private static final String PASSWORD = "mysqlcuatai123*";
+    private static final String PASSWORD = "18102004";
 
     @Override
     public Connection getConnection() throws SQLException {

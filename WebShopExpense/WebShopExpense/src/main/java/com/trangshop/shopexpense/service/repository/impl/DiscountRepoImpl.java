@@ -31,7 +31,7 @@ public class DiscountRepoImpl implements DiscountRepo {
             if (status != null && !status.isEmpty()) {
                 sql += " AND status = ?";
             }
-            sql += " LIMIT ? OFFSET ?";
+            sql += " ORDER BY id DESC LIMIT ? OFFSET ?";
 
             PreparedStatement stmt = conn.prepareStatement(sql);
             int paramIndex = 1;

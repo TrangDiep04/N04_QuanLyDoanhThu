@@ -19,17 +19,19 @@ public class RevenueRepoImpl implements RevenueRepo {
 
     private DatabaseConnectService databaseConnectService;
     private RevenueQueries revenueQueries;
+
     public RevenueRepoImpl() {
         this.databaseConnectService = new DatabaseConnectServiceImpl();
         this.revenueQueries = new RevenueQueries();
     }
+
     @Override
     public List<RevenueByTime> getRevenueByTime(String period, String startDate, String endDate) {
         List<RevenueByTime> revenues = new ArrayList<>();
         try (Connection conn = databaseConnectService.getConnection();
              PreparedStatement stmt = conn.prepareStatement(revenueQueries.GET_REVENUE_BY_TIME)) {
             String dateFormat;
-            switch (period) {
+            switch (period.toLowerCase()) {
                 case "day":
                     dateFormat = "%Y-%m-%d";
                     break;
@@ -45,8 +47,9 @@ public class RevenueRepoImpl implements RevenueRepo {
             stmt.setString(1, dateFormat);
             stmt.setString(2, startDate);
             stmt.setString(3, endDate);
-            ResultSet rs = stmt.executeQuery();
+            stmt.setString(4, dateFormat);
 
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 revenues.add(new RevenueByTime(
                         rs.getString("time_period"),
@@ -55,8 +58,8 @@ public class RevenueRepoImpl implements RevenueRepo {
             }
             return revenues;
         } catch (SQLException e) {
-           e.printStackTrace();
-           return null;
+            e.printStackTrace();
+            return null;
         }
     }
 
@@ -67,8 +70,8 @@ public class RevenueRepoImpl implements RevenueRepo {
              PreparedStatement stmt = conn.prepareStatement(revenueQueries.GET_REVENUE_BY_PRODUCT)) {
             stmt.setString(1, startDate);
             stmt.setString(2, endDate);
-            ResultSet rs = stmt.executeQuery();
 
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 revenues.add(new RevenueByProduct(
                         rs.getString("name"),
@@ -82,7 +85,6 @@ public class RevenueRepoImpl implements RevenueRepo {
         }
     }
 
-
     @Override
     public List<RevenueByCustomer> getRevenueByCustomer(String startDate, String endDate) {
         List<RevenueByCustomer> revenues = new ArrayList<>();
@@ -91,7 +93,6 @@ public class RevenueRepoImpl implements RevenueRepo {
             stmt.setString(1, startDate);
             stmt.setString(2, endDate);
             ResultSet rs = stmt.executeQuery();
-
             while (rs.next()) {
                 revenues.add(new RevenueByCustomer(
                         rs.getString("name"),
