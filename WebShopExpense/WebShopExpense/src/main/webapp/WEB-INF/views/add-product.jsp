@@ -29,8 +29,12 @@
                 </div>
                 <div class="mb-3">
                     <label for="price" class="form-label">Price</label>
-                    <input type="number" step="0.01" class="form-control" id="price" name="price" required>
+                    <div class="input-group">
+                        <input type="number" step="0.01" class="form-control" id="price" name="price" required>
+                        <span class="input-group-text">VND</span>
+                    </div>
                 </div>
+
                 <div class="mb-3">
                     <label for="stockQuantity" class="form-label">Stock Quantity</label>
                     <input type="number" class="form-control" id="stockQuantity" name="stockQuantity" required>
