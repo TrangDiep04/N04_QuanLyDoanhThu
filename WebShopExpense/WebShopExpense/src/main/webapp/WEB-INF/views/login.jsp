@@ -4,140 +4,163 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShopExpense - Login</title>
+    <meta name="viewport" content="width=device-width, input-scale=1.0">
+    <title>Quản lý bán hàng bán điện thoại SmartZone - Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Căn giữa tiêu đề */
-        .title-container {
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #6b5b95 0%, #ff6f61 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+
+        .login-card {
+            background: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+        }
+
+        .image-section {
+            width: 40%;
+            background: url('https://png.pngtree.com/png-clipart/20240703/original/pngtree-colorful-shapes-inside-a-square-cell-phone-icon-vector-png-image_15475398.png') no-repeat center;
+            background-size: contain;
+        }
+
+        .form-section {
+            width: 60%;
+            padding: 2rem;
             text-align: center;
+        }
+
+        .logo-container {
             margin-bottom: 1rem;
         }
-        .subtitle-container {
-            text-align: center;
-            margin-bottom: 2rem;
-            letter-spacing: 1px;
+
+        .logo-container img {
+            width: 90px;
+            height: auto;
         }
 
-        /* Hiệu ứng uốn lượn cho chữ ShopExpense */
-        .h1-custom {
-            font-size: 3rem; /* Tăng kích thước chữ lớn hơn (từ 2.5rem lên 3rem) */
-            font-weight: bold;
-            color: #1E90FF; /* Màu xanh giống trong hình */
-            display: inline-block;
-            letter-spacing: -5px; /* Giảm khoảng cách giữa các ký tự (âm để sát hơn) */
-        }
-        .h1-custom span {
-            display: inline-block;
-            animation: wave 2s infinite;
-            animation-delay: calc(0.1s * var(--i)); /* Tạo độ trễ cho từng chữ cái */
-        }
-        @keyframes wave {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); } /* Chuyển động lên xuống tạo sóng */
-        }
-
-        /* Tùy chỉnh ô input đẹp hơn */
-        .form-outline {
+        .title-container h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color:  #0a2346;
             margin-bottom: 1.5rem;
-        }
-        .form-control {
-            border-radius: 10px; /* Bo góc */
-            border: 2px solid #6b5b95; /* Màu border đặc sắc */
-            padding: 0.75rem;
-            font-size: 1rem;
-            transition: all 0.3s ease; /* Hiệu ứng mượt mà */
-        }
-        .form-control:focus {
-            border-color: #ff6f61; /* Thay đổi màu border khi focus */
-            box-shadow: 0 0 10px rgba(255, 111, 97, 0.5); /* Hiệu ứng glow */
-            outline: none; /* Loại bỏ outline mặc định */
-        }
-        .form-control:hover {
-            border-color: #88b04b; /* Thay đổi màu border khi hover */
-            background-color: #f9f9f9; /* Nhẹ nhàng đổi màu nền */
+            text-transform: capitalize;
         }
 
-        /* Tùy chỉnh nút Login */
-        .btn-custom {
-            background-color: #343a40; /* Giữ màu đen như ban đầu */
+        .title-container h2 span {
+            text-transform: uppercase;
+        }
+
+        .form-outline {
+            margin-bottom: 1.2rem;
+            text-align: left;
+            position: relative;
+        }
+
+        .form-control {
+            border-radius: 0.5rem;
+            border: 1px solid #dee2e6;
+            padding: 0.75rem 1rem 0.75rem 2.5rem; /* Đảm bảo padding trái đủ để chứa icon */
+            font-size: 1rem;
+            width: 100%;
+            box-sizing: border-box;
+            height: 2.5rem; /* Chiều cao cố định */
+            line-height: 1.5;
+            position: relative; /* Để hỗ trợ căn chỉnh icon */
+        }
+
+        .form-control:focus {
+            border-color: #1E90FF;
+            box-shadow: 0 0 5px rgba(30, 144, 255, 0.3);
+            outline: none;
+        }
+
+        .form-outline i {
+            position: absolute;
+            top: 50%;
+            left: 0.9rem; /* Điều chỉnh vị trí trái để sát mép hơn */
+            transform: translateY(-8%);
+            color: #6b5b95;
+            font-size: 1.1rem; /* Tăng kích thước icon một chút để nổi bật */
+            line-height: 2;
+            z-index: 2; /* Đảm bảo icon nằm trên input */
+        }
+
+        .btn-login {
+            background: linear-gradient(90deg, #1E90FF, #ff6f61);
             border: none;
-            border-radius: 10px;
+            border-radius: 0.5rem;
             padding: 0.75rem;
             font-size: 1.1rem;
-            transition: all 0.3s ease;
+            font-weight: 500;
+            color: #ffffff;
+            width: 50%;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        .btn-custom:hover {
-            background-color: #23272b; /* Tối hơn khi hover */
-            transform: scale(1.05); /* Phóng to nhẹ */
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(30, 144, 255, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .login-card {
+                max-width: 100%;
+                flex-direction: column;
+            }
+            .image-section, .form-section {
+                width: 100%;
+            }
+            .image-section {
+                height: 200px;
+            }
         }
     </style>
 </head>
 <body>
-<section class="vh-100" style="background-color: #9A616D;">
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col col-xl-10">
-        <div class="card" style="border-radius: 1rem;">
-          <div class="row g-0">
-            <div class="col-md-6 col-lg-5 d-none d-md-block">
-              <img src="https://png.pngtree.com/png-clipart/20240703/original/pngtree-colorful-shapes-inside-a-square-cell-phone-icon-vector-png-image_15475398.png"
-                alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
+    <div class="login-card">
+        <div class="image-section"></div>
+        <div class="form-section">
+            <div class="logo-container">
+                <img src="https://lh6.googleusercontent.com/proxy/xERFWAH3lL_E22KeKlNIFgkmF6eC8gORdo5roxZnxxWnnq21eShNpR7-t-YwAfGmN7GaZJGhe73Yjik1Ak-sokQk-OcTBataXfFzfDyfzqYxFJ5T3kxLLYDCNl3op-B6k8qlRn5FLW36E73DiOI3ttKRrcRnrCQc3bEeTlPwFJpELjQELOqpkf8foFfDzsajbFjCYGMdbLQf58H7_5oiRw2agWfJkzP_p5BwguAyWSWop2_l3a8ltfZyJU5tFQ" alt="SmartZone Logo">
             </div>
-            <div class="col-md-6 col-lg-7 d-flex align-items-center">
-              <div class="card-body p-4 p-lg-5 text-black">
+            <div class="title-container">
+                <h2>Quản lý bán hàng bán điện thoại SmartZone</h2>
+            </div>
 
-                <form action="${pageContext.request.contextPath}/login" method="POST">
-
-                  <div class="title-container">
-                    <span class="h1-custom">
-                        <span style="--i:1">S</span>
-                        <span style="--i:2">h</span>
-                        <span style="--i:3">o</span>
-                        <span style="--i:4">p</span>
-                        <span style="--i:5">E</span>
-                        <span style="--i:6">x</span>
-                        <span style="--i:7">p</span>
-                        <span style="--i:8">e</span>
-                        <span style="--i:9">n</span>
-                        <span style="--i:10">s</span>
-                        <span style="--i:11">e</span>
-                    </span>
-                  </div>
-
-                  <div class="subtitle-container">
-                    <h5 class="fw-normal mb-3 pb-3">Sign into your account</h5>
-                  </div>
-
-                  <c:if test="${not empty error}">
+            <form action="${pageContext.request.contextPath}/login" method="POST">
+                <c:if test="${not empty error}">
                     <div class="alert alert-danger" role="alert">${error}</div>
-                  </c:if>
+                </c:if>
 
-                  <div class="form-outline mb-4">
+                <div class="form-outline mb-3">
+                    <i class="fas fa-user"></i>
                     <label class="form-label" for="username">Username</label>
-                    <input type="text" id="username" name="username" class="form-control form-control-lg" required />
-                  </div>
+                    <input type="text" id="username" name="username" class="form-control" required />
+                </div>
 
-                  <div class="form-outline mb-4">
+                <div class="form-outline mb-3">
+                    <i class="fas fa-lock"></i>
                     <label class="form-label" for="password">Password</label>
-                    <input type="password" id="password" name="password" class="form-control form-control-lg" required />
-                  </div>
+                    <input type="password" id="password" name="password" class="form-control" required />
+                </div>
 
-                  <div class="pt-1 mb-4">
-                    <button class="btn btn-dark btn-lg btn-block w-100 btn-custom" type="submit">Login</button>
-                  </div>
-
-                </form>
-
-              </div>
-            </div>
-          </div>
+                <button type="submit" class="btn-login">Login</button>
+            </form>
         </div>
-      </div>
     </div>
-  </div>
-</section>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

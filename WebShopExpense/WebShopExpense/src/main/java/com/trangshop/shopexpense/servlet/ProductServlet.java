@@ -93,7 +93,19 @@ public class ProductServlet extends HttpServlet {
                         request.getParameter("specifications")
                 );
                 productService.addProduct(newProduct);
-                response.sendRedirect(request.getContextPath() + "/products");
+
+                // Lấy danh sách sản phẩm hiện tại và chèn sản phẩm mới vào đầu
+                int page = 1; // Lấy trang đầu tiên để hiển thị sản phẩm mới
+                int pageSize = 10;
+                List<Product> products = productService.getProducts(page, pageSize);
+                products.add(0, newProduct); // Chèn sản phẩm mới vào đầu danh sách
+                int totalPages = productService.getTotalPages(pageSize);
+
+                // Đưa dữ liệu vào request để JSP sử dụng
+                request.setAttribute("products", products);
+                request.setAttribute("currentPage", page);
+                request.setAttribute("totalPages", totalPages);
+                request.getRequestDispatcher("/WEB-INF/views/products.jsp").forward(request, response);
                 break;
             case "edit":
                 Product updatedProduct = new Product(

@@ -10,10 +10,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- Font Awesome for additional icons -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <!-- Google Fonts - Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js for charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * {
             margin: 0;
@@ -24,144 +22,133 @@
 
         body {
             min-height: 100vh;
-            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            overflow-x: hidden;
         }
 
         .sidebar {
-            width: 250px;
-            background: linear-gradient(180deg, #6a11cb, #2575fc);
+            width: 260px;
+            background: linear-gradient(180deg, #2c3e50, #3498db);
             color: white;
             position: fixed;
             height: 100%;
-            padding-top: 20px;
-            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+            padding: 20px 0;
+            transition: all 0.3s ease;
         }
 
         .sidebar h2 {
-            font-size: 22px;
+            font-size: 24px;
             text-align: center;
-            padding-bottom: 10px;
-            margin: 0 20px 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .sidebar .nav-link {
             font-size: 16px;
-            padding: 12px 30px;
+            padding: 12px 20px;
             color: white;
+            display: flex;
+            align-items: center;
             border-radius: 8px;
             transition: all 0.3s ease;
         }
 
         .sidebar .nav-link i {
-            margin-right: 10px;
+            margin-right: 12px;
+            width: 20px;
         }
 
         .sidebar .nav-link:hover {
-            background: rgba(255, 255, 255, 0.2);
-            padding-left: 40px;
+            background: rgba(255, 255, 255, 0.15);
             transform: translateX(5px);
-            color: white;
-            font-weight: 500;
+            color: #fff;
         }
 
         .main-content {
-            margin-left: 250px;
-            padding: 20px;
+            margin-left: 260px;
+            padding: 20px 30px;
             min-height: 100vh;
-            background: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2070&auto=format&fit=crop') no-repeat center center fixed;
-            background-size: cover;
-            position: relative;
-        }
-
-        .main-content::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(200, 200, 200, 0.6));
-            backdrop-filter: blur(5px);
-            z-index: 1;
-        }
-
-        .main-content .container-fluid {
-            position: relative;
-            z-index: 2;
-        }
-
-        .intro-section {
-            text-align: center;
-            margin-bottom: 30px;
-            animation: fadeIn 1s ease-in-out;
-        }
-
-        .intro-section img.logo {
-            max-width: 300px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-
-        .intro-section .phone-img {
-            max-width: 150px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-left: 20px;
-            float: right;
-        }
-
-        .intro-section h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, #2196f3, #ff6b6b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .intro-section p {
-            color: #333;
-            font-size: 1.2rem;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto 20px;
-        }
-
-        .intro-section .btn {
-            margin-top: 20px;
-            background: linear-gradient(45deg, #2196f3, #21cbf3);
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            font-size: 1.1rem;
-            border-radius: 8px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
 
-        .intro-section .btn:hover {
-            background: linear-gradient(45deg, #21cbf3, #2196f3);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 10px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .header h2 {
+            font-size: 28px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h5 {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 24px;
+            font-weight: 600;
+            color: #3498db;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
         }
 
         .footer {
-            position: fixed;
-            bottom: 0;
-            width: calc(100% - 250px);
-            margin-left: 250px;
-            background: linear-gradient(90deg, #ff6b6b, #ff8e53);
+            margin-left: 260px;
+            background: #2c3e50;
             color: white;
             text-align: center;
-            padding: 10px 0;
-            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.2);
+            padding: 15px 0;
+            position: relative;
+            bottom: 0;
+            width: calc(100% - 260px);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-260px);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .footer {
+                margin-left: 0;
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -175,7 +162,7 @@
 %>
 
 <!-- Sidebar -->
-<div class="sidebar d-flex flex-column">
+<div class="sidebar">
     <h2>SmartZone Admin</h2>
     <nav class="nav flex-column">
         <a href="${pageContext.request.contextPath}/products" class="nav-link">
@@ -201,19 +188,31 @@
 
 <!-- Main Content -->
 <div class="main-content">
-    <div class="container-fluid">
-        <div class="intro-section">
-            <img src="https://insacmau.com/wp-content/uploads/2024/03/logo-dien-thoai-36.jpg" alt="SmartZone Logo" class="img-fluid logo">
-            <h2>Welcome to SmartZone Admin Dashboard</h2>
+    <div class="header">
+        <h2>Dashboard Overview</h2>
+    </div>
 
-            <p>
-                SmartZone là hệ thống quản lý bán hàng điện thoại thông minh hàng đầu, giúp bạn quản lý cửa hàng một cách dễ dàng và hiệu quả.
-                Với SmartZone, bạn có thể theo dõi danh mục sản phẩm, tạo chương trình khuyến mãi, quản lý thông tin khách hàng, xử lý đơn hàng,
-                và phân tích doanh thu chỉ trong vài cú nhấp chuột. Hãy bắt đầu khám phá các tính năng mạnh mẽ để đưa cửa hàng điện thoại của bạn
-                lên một tầm cao mới!
-            </p>
-            <a href="${pageContext.request.contextPath}/products" class="btn btn-primary">Explore Now</a>
+    <div class="cards">
+        <div class="card">
+            <h5>Total Products</h5>
+            <p>150</p>
         </div>
+        <div class="card">
+            <h5>Active Orders</h5>
+            <p>45</p>
+        </div>
+        <div class="card">
+            <h5>Total Customers</h5>
+            <p>320</p>
+        </div>
+        <div class="card">
+            <h5>Revenue (Today)</h5>
+            <p>$2,500</p>
+        </div>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="revenueChart"></canvas>
     </div>
 </div>
 
@@ -221,6 +220,31 @@
 <div class="footer">
     <p>© 2025 SmartZone. All rights reserved. Contact us at support@smartzone.com</p>
 </div>
+
+<!-- Chart.js Initialization -->
+<script>
+    const ctx = document.getElementById('revenueChart').getContext('2d');
+    const revenueChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            datasets: [{
+                label: 'Revenue ($)',
+                data: [1200, 1500, 1800, 1300, 2000, 1700, 2200],
+                backgroundColor: 'rgba(52, 152, 219, 0.8)',
+                borderColor: 'rgba(52, 152, 219, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
 
 <!-- Bootstrap 5 JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
