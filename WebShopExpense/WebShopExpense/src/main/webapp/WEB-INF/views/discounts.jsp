@@ -12,19 +12,27 @@
         body {
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px 0;
         }
         .container {
             max-width: 1200px;
-            margin-top: 40px;
+            margin: 40px auto;
         }
         .card {
             border: none;
             border-radius: 15px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
+            background: white;
+            padding: 20px;
         }
-        .card:hover {
-            transform: translateY(-5px);
+        .title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         .form-select, .form-control {
             border-radius: 8px;
@@ -79,6 +87,7 @@
             border-radius: 10px;
             overflow: hidden;
             background: white;
+            margin-top: 20px;
         }
         .table thead th {
             background-color: #007bff;
@@ -92,12 +101,14 @@
             background-color: #e7f3ff;
             color: #004085;
             border-color: #b8daff;
+            margin-top: 20px;
         }
         .pagination-controls {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 15px;
+            margin-top: 20px;
         }
         .badge-primary {
             background-color: #007bff;
@@ -109,10 +120,10 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="text-primary mb-4 text-center">Discount Manager</h1>
-    <div class="card shadow mb-4">
+    <div class="card shadow">
+        <h1 class="title">Discount Manager</h1>
         <div class="card-body">
-            <form action="${pageContext.request.contextPath}/discounts" method="GET" class="row g-3 align-items-end">
+            <form action="${pageContext.request.contextPath}/discounts" method="GET" class="row g-3 align-items-end mb-4">
                 <div class="col-md-3">
                     <label for="status" class="form-label fw-bold">Status</label>
                     <select class="form-select" id="status" name="status">
@@ -128,10 +139,6 @@
                     <a href="${pageContext.request.contextPath}/discounts?action=create" class="btn btn-success"><i class="bi bi-plus-circle me-1"></i>Create New Discount</a>
                 </div>
             </form>
-        </div>
-    </div>
-    <div class="card shadow">
-        <div class="card-body">
             <c:if test="${empty discounts}">
                 <div class="alert alert-info text-center">No discounts available for the selected status.</div>
             </c:if>
@@ -153,7 +160,7 @@
                         <c:forEach var="discount" items="${discounts}">
                             <tr>
                                 <td>${discount.code}</td>
-                                <td>${discount.discountValue}${discount.discountType == 'PERCENTAGE' ? '%' : '$'}</td>
+                                <td>${discount.discountValue}${discount.discountType == 'PERCENTAGE' ? '%' : ' VND'}</td>
                                 <td>${discount.discountType}</td>
                                 <td>${discount.startDate}</td>
                                 <td>${discount.endDate}</td>
@@ -171,7 +178,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="pagination-controls mt-4">
+                <div class="pagination-controls">
                     <a href="${pageContext.request.contextPath}/discounts?page=${currentPage - 1}&status=${statusFilter}" class="btn btn-primary btn-sm ${currentPage == 1 ? 'disabled' : ''}"><i class="bi bi-chevron-left me-1"></i>Previous</a>
                     <span class="badge badge-primary">Page ${currentPage} of ${totalPages}</span>
                     <a href="${pageContext.request.contextPath}/discounts?page=${currentPage + 1}&status=${statusFilter}" class="btn btn-primary btn-sm ${currentPage == totalPages ? 'disabled' : ''}">Next<i class="bi bi-chevron-right ms-1"></i></a>
