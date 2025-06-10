@@ -1,9 +1,11 @@
 package com.trangshop.shopexpense.servlet;
-
 import com.trangshop.shopexpense.model.Order;
 import com.trangshop.shopexpense.model.OrderDetail;
+import com.trangshop.shopexpense.model.Customer;
 import com.trangshop.shopexpense.service.OrderService;
+import com.trangshop.shopexpense.service.CustomerService;
 import com.trangshop.shopexpense.service.impl.OrderServiceImpl;
+import com.trangshop.shopexpense.service.impl.CustomerServiceImpl;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,24 +13,29 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
-
-import java.io.IOException;
+import java.util.Map;
 import java.time.LocalDate;
-import java.util.List;
 
 @WebServlet("/orders")
 public class OrderServlet extends HttpServlet {
 
     private OrderService orderService;
+    private CustomerService customerService;
 
     @Override
     public void init() throws ServletException {
         this.orderService = new OrderServiceImpl();
+        this.customerService = new CustomerServiceImpl();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("loggedIn") == null) {
             response.sendRedirect(request.getContextPath() + "/login");
@@ -71,8 +78,20 @@ public class OrderServlet extends HttpServlet {
                 }
 
                 List<Order> orders = orderService.getOrders(page, pageSize, statusFilter, startDate, endDate);
+
+                // Map customerId to customer name
+                Map<Integer, String> customerNames = new HashMap<>();
+                for (Order order : orders) {
+                    Integer customerId = order.getCustomerId();
+                    if (customerId != null && !customerNames.containsKey(customerId)) {
+                        Customer customer = customerService.getCustomerById(customerId);
+                        customerNames.put(customerId, customer != null ? customer.getName() : "Unknown");
+                    }
+                }
+
                 int totalPages = orderService.getTotalPages(pageSize, statusFilter, startDate, endDate);
                 request.setAttribute("orders", orders);
+                request.setAttribute("customerNames", customerNames);
                 request.setAttribute("currentPage", page);
                 request.setAttribute("totalPages", totalPages);
                 request.setAttribute("statusFilter", statusFilter);
@@ -85,6 +104,10 @@ public class OrderServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("loggedIn") == null) {
             response.sendRedirect(request.getContextPath() + "/login");

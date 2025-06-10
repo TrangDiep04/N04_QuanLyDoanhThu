@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,10 +12,10 @@
 </head>
 <body class="bg-light">
 <div class="container mt-5">
-    <h1 class="text-primary mb-4">Order Manager</h1>
-    <div class="card shadow mb-4">
+    <div class="card shadow">
         <div class="card-body">
-            <form action="${pageContext.request.contextPath}/orders" method="POST" class="row g-3">
+            <h1 class="text-primary mb-4">Order Manager</h1>
+            <form action="${pageContext.request.contextPath}/orders" method="POST" class="row g-3 mb-4">
                 <div class="col-md-3">
                     <label for="status" class="form-label">Status</label>
                     <select class="form-select" id="status" name="status">
@@ -37,10 +38,6 @@
                     <button type="submit" class="btn btn-primary w-100">Filter</button>
                 </div>
             </form>
-        </div>
-    </div>
-    <div class="card shadow">
-        <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered table-hover">
                     <thead class="table-primary">
@@ -55,11 +52,21 @@
                     </thead>
                     <tbody>
                     <c:forEach var="order" items="${orders}">
-                        <c:set var="customer" value="${order.customerId != null ? customerService.getCustomerById(order.customerId).name : 'Unknown'}" />
                         <tr>
                             <td>${order.orderCode}</td>
-                            <td>${customer}</td>
-                            <td>$${order.totalAmount}</td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${order.customerId != null}">
+                                        ${customerNames[order.customerId]}
+                                    </c:when>
+                                    <c:otherwise>
+                                        Unknown
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td>
+                                <fmt:formatNumber value="${order.totalAmount}" type="number" groupingUsed="true" /> VND
+                            </td>
                             <td>${order.status}</td>
                             <td>${order.orderDate}</td>
                             <td>

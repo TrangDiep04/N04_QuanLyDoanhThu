@@ -2,8 +2,6 @@ package com.trangshop.shopexpense.servlet;
 import com.trangshop.shopexpense.model.Customer;
 import com.trangshop.shopexpense.service.CustomerService;
 import com.trangshop.shopexpense.service.impl.CustomerServiceImpl;
-
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,7 +23,10 @@ public class CustomerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession(false);
+        // Kiểm tra phiên đăng nhập
         if (session == null || session.getAttribute("loggedIn") == null) {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
@@ -71,6 +72,8 @@ public class CustomerServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        // Kiểm tra phiên đăng nhập
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("loggedIn") == null) {
             response.sendRedirect(request.getContextPath() + "/login");
