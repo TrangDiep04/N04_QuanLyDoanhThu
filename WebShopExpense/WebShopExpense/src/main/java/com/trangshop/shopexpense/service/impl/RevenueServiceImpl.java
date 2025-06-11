@@ -15,14 +15,17 @@ public class RevenueServiceImpl implements RevenueService {
     public RevenueServiceImpl() {
         this.revenueRepo = new RevenueRepoImpl();
     }
+
     @Override
     public List<RevenueByTime> getRevenueByTime(String period, String startDate, String endDate) {
         return revenueRepo.getRevenueByTime(period, startDate, endDate);
     }
+
     @Override
     public List<RevenueByProduct> getRevenueByProduct(String startDate, String endDate) {
         return revenueRepo.getRevenueByProduct(startDate, endDate);
     }
+
     @Override
     public List<RevenueByCustomer> getRevenueByCustomer(String startDate, String endDate) {
         return revenueRepo.getRevenueByCustomer(startDate, endDate);
