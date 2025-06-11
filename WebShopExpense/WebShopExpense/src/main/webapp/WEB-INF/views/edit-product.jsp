@@ -143,6 +143,10 @@
                     <label for="specifications" class="form-label">Specifications</label>
                     <textarea class="form-control" id="specifications" name="specifications" rows="3">${product.specifications}</textarea>
                 </div>
+                <div class="form-group">
+                    <label for="imageUrl" class="form-label">Image URL</label>
+                    <input type="text" class="form-control" id="imageUrl" name="imageUrl" value="${product.imageUrl}" required>
+                </div>
                 <div class="d-flex justify-content-between">
                     <button type="submit" class="btn btn-primary">Update Product</button>
                     <a href="${pageContext.request.contextPath}/products" class="btn btn-secondary">Cancel</a>

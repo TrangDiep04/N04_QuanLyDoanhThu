@@ -8,8 +8,9 @@ public class Product {
     private double price;
     private int stockQuantity;
     private String specifications;
+    private String imageUrl; // Thêm thuộc tính imageUrl
 
-    public Product(int id, String productCode, String name, String description, double price, int stockQuantity, String specifications) {
+    public Product(int id, String productCode, String name, String description, double price, int stockQuantity, String specifications, String imageUrl) {
         this.id = id;
         this.productCode = productCode;
         this.name = name;
@@ -17,6 +18,7 @@ public class Product {
         this.price = price;
         this.stockQuantity = stockQuantity;
         this.specifications = specifications;
+        this.imageUrl = imageUrl; // Thêm imageUrl vào constructor
     }
 
     public Product() {
@@ -76,5 +78,13 @@ public class Product {
 
     public void setProductCode(String productCode) {
         this.productCode = productCode;
+    }
+
+    public String getImageUrl() {
+        return imageUrl != null ? imageUrl : "https://picsum.photos/150";
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

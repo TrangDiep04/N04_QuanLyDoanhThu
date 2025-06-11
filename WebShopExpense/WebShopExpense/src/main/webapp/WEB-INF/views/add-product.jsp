@@ -139,6 +139,10 @@
                     <label for="specifications" class="form-label">Specifications</label>
                     <textarea class="form-control" id="specifications" name="specifications" rows="3" placeholder="RAM: 6GB, Storage: 128GB"></textarea>
                 </div>
+                <div class="form-group">
+                    <label for="imageUrl" class="form-label">Image URL</label>
+                    <input type="text" class="form-control" id="imageUrl" name="imageUrl" required placeholder="https://example.com/image.jpg">
+                </div>
                 <div class="d-flex justify-content-between">
                     <button type="submit" class="btn btn-primary">Add Product</button>
                     <a href="${pageContext.request.contextPath}/products" class="btn btn-secondary">Cancel</a>

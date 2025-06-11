@@ -19,7 +19,6 @@ public class ProductRepoImpl implements ProductRepo {
     private ProductQueries productQueries;
     private ProductMapper productMapper;
 
-
     public ProductRepoImpl() {
         this.databaseConnectService = new DatabaseConnectServiceImpl();
         this.productQueries = new ProductQueries();
@@ -34,12 +33,13 @@ public class ProductRepoImpl implements ProductRepo {
              PreparedStatement stmt = conn.prepareStatement(productQueries.FIND_ALL_PRODUCT)) {
             stmt.setInt(1, pageSize);
             stmt.setInt(2, offset);
-            try(ResultSet rs = stmt.executeQuery()){
-            while (rs.next()) {
-                Product product = new Product();
-                products.add(productMapper.toProduct(product, rs));
-            }}
-        }catch (Exception e){
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Product product = new Product();
+                    products.add(productMapper.toProduct(product, rs));
+                }
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return products;
@@ -68,6 +68,7 @@ public class ProductRepoImpl implements ProductRepo {
             stmt.setDouble(4, product.getPrice());
             stmt.setInt(5, product.getStockQuantity());
             stmt.setString(6, product.getSpecifications());
+            stmt.setString(7, product.getImageUrl()); // Add imageUrl
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -84,7 +85,8 @@ public class ProductRepoImpl implements ProductRepo {
             stmt.setDouble(4, product.getPrice());
             stmt.setInt(5, product.getStockQuantity());
             stmt.setString(6, product.getSpecifications());
-            stmt.setInt(7, product.getId());
+            stmt.setString(7, product.getImageUrl()); // Add imageUrl
+            stmt.setInt(8, product.getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -117,7 +119,8 @@ public class ProductRepoImpl implements ProductRepo {
                         rs.getString("description"),
                         rs.getDouble("price"),
                         rs.getInt("stock_quantity"),
-                        rs.getString("specifications")
+                        rs.getString("specifications"),
+                        rs.getString("image_url")
                 );
             }
             return null;
