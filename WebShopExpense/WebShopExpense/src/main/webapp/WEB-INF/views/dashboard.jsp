@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- Chart.js for charts -->
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * {
@@ -100,6 +101,7 @@
             padding: 20px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
+            text-align: center;
         }
 
         .card:hover {
@@ -109,7 +111,7 @@
 
         .card h5 {
             font-size: 18px;
-            color: #2c3e50;
+            color: #7f8c8d;
             margin-bottom: 10px;
         }
 
@@ -154,8 +156,7 @@
 </head>
 <body>
 <%
-    String role = (String) session.getAttribute("role");
-    if (session.getAttribute("user") == null || !"ADMIN".equals(role)) {
+    if (session.getAttribute("user") == null || !"ADMIN".equals(session.getAttribute("role"))) {
         response.sendRedirect("login.jsp");
         return;
     }
@@ -194,20 +195,16 @@
 
     <div class="cards">
         <div class="card">
-            <h5>Total Products</h5>
-            <p>150</p>
+            <h5>Total Stock</h5>
+            <p><c:out value="${totalStock}"/></p>
         </div>
         <div class="card">
-            <h5>Active Orders</h5>
-            <p>45</p>
+            <h5>Total Orders</h5>
+            <p><c:out value="${totalOrders}"/></p>
         </div>
         <div class="card">
-            <h5>Total Customers</h5>
-            <p>320</p>
-        </div>
-        <div class="card">
-            <h5>Revenue (Today)</h5>
-            <p>$2,500</p>
+            <h5>Total Revenue (VND)</h5>
+            <p><fmt:formatNumber value="${totalRevenue}" type="number" groupingUsed="true"/></p>
         </div>
     </div>
 
@@ -227,10 +224,10 @@
     const revenueChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            labels: [<c:forEach var="data" items="${revenueByDay}" varStatus="loop">'${data[0]}'<c:if test="${!loop.last}">,</c:if></c:forEach>],
             datasets: [{
-                label: 'Revenue ($)',
-                data: [1200, 1500, 1800, 1300, 2000, 1700, 2200],
+                label: 'Revenue (VND)',
+                data: [<c:forEach var="data" items="${revenueByDay}" varStatus="loop">${data[1]}<c:if test="${!loop.last}">,</c:if></c:forEach>],
                 backgroundColor: 'rgba(52, 152, 219, 0.8)',
                 borderColor: 'rgba(52, 152, 219, 1)',
                 borderWidth: 1
@@ -239,8 +236,13 @@
         options: {
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    ticks: { callback: value => value.toLocaleString() }
                 }
+            },
+            plugins: {
+                legend: { position: 'top' },
+                tooltip: { callbacks: { label: context => `${context.label}: ${context.raw.toLocaleString()} VND` } }
             }
         }
     });
